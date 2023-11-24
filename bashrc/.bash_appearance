@@ -1,0 +1,52 @@
+#!/usr/env/sh
+
+# defining all the colors that we might use
+blk='\[\033[01;30m\]'   # Black
+red='\[\033[01;31m\]'   # Red
+grn='\[\033[01;32m\]'   # Green
+ylw='\[\033[01;33m\]'   # Yellow
+blu='\[\033[01;34m\]'   # Blue
+pur='\[\033[01;35m\]'   # Purple
+cyn='\[\033[01;36m\]'   # Cyan
+wht='\[\033[01;37m\]'   # White
+clr='\[\033[00m\]'      # Reset
+
+# Display the current Git branch in the Bash prompt.
+function get_git_branch() {
+	if [ -d .git ] ; then
+		printf "%s" "($(git branch 2> /dev/null | awk '/\*/{print $2}'))";
+	fi
+}
+
+# Set the prompt.
+function define_bash_prompt(){
+	PS1='${debian_chroot:+($debian_chroot)}'${blu}'$(get_git_branch)'${pur}' \W'${grn}' \$ '${clr}
+}
+
+function display_prologue_terminal() {
+	clear
+
+	printf "\n"
+#	printf "   %s\n" "IP ADDR: $(curl ifconfig.me)"
+	printf "   %s\n" "USER: $(echo $USER)"
+	printf "   %s\n" "DATE: $(date)"
+	printf "   %s\n" "UPTIME: $(uptime -p)"
+	printf "   %s\n" "HOSTNAME: $(hostname -f)"
+	printf "   %s\n" "PACKAGES: $(dpkg --get-selections | wc -l)"
+	printf "   %s\n" "MEMORY: $(free -m -h | awk '/Mem/{print $3"/"$2}')"
+	printf "\n"
+}
+
+define_bash_prompt
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+fi
+
+display_prologue_terminal
+
