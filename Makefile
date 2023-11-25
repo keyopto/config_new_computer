@@ -18,7 +18,7 @@ install_vim:
 	rm -rf temp
 
 bashrc:
-	cp -i bashrc/. ~/
+	cp -r -i bashrc/. ~/
 
 nvim:
 	mkdir -p ~/.config/nvim && cp -r -i nvim/* ~/.config/nvim
