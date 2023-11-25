@@ -1,0 +1,6 @@
+#!/usr/env/sh
+
+alias cdvimconf = "cd ~/.config/nvim"
+
+alias vimconf = "cdvimconf && nvim ."
+
